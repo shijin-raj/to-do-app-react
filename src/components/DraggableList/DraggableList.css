@@ -1,5 +1,5 @@
 .main {
-    background: grey;
+    background: #f1f1f1;
     color: white;
     padding: 20px;
     display: flex;
@@ -21,15 +21,18 @@
 }
 
 .head span {
-    background-color: yellow;
+    background-color: #ffff86;
     color: black;
     padding: 20px;
     text-align: center;
 }
 
-table td,
-th {
+table td {
     box-shadow: 2px -2px 4px 1px black;
+}
+
+table th {
+    box-shadow: 2px 0px 4px 1px black;
 }
 
 thead {
@@ -38,7 +41,7 @@ thead {
 }
 
 table td {
-    background: yellow;
+    background: #ffff86;
     color: black;
 }
 

@@ -5,7 +5,7 @@ const [draggedItem, setDraggedItem]=useState(null);
 
 const [state,setState]=useState([{
     id:1,
-    task:'Do a bath',
+    task:'Workout',
     order:1
 },{
     id:2,
@@ -13,7 +13,7 @@ const [state,setState]=useState([{
     order:2
 },{
     id:3,
-    task:'Eat food',
+    task:'Eat',
     order:3
 },{
     id:4,
