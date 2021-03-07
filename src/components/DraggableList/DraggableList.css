@@ -1,0 +1,59 @@
+.main {
+    background: grey;
+    color: white;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center
+}
+
+.item {
+    color: black;
+    padding: 10px;
+    width: 100px;
+    text-align: center;
+    background: white;
+    flex: 1
+}
+
+.list-item {
+    display: inline-flex;
+}
+
+.head span {
+    background-color: yellow;
+    color: black;
+    padding: 20px;
+    text-align: center;
+}
+
+table td,
+th {
+    box-shadow: 2px -2px 4px 1px black;
+}
+
+thead {
+    background: rgb(71, 63, 63);
+    padding: 10px;
+}
+
+table td {
+    background: yellow;
+    color: black;
+}
+
+table tr :hover {
+    background: white;
+    color: black;
+}
+
+table th,
+td {
+    padding: 10px;
+}
+
+@media screen and (max-width:720px) {
+    table {
+        width: -webkit-fill-available;
+    }
+}
