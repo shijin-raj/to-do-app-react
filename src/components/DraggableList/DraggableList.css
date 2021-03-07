@@ -20,11 +20,8 @@
     display: inline-flex;
 }
 
-.head span {
-    background-color: #ffff86;
-    color: black;
-    padding: 20px;
-    text-align: center;
+table {
+    min-width: 60%;
 }
 
 table td {
@@ -52,6 +49,31 @@ table tr :hover {
 
 table th,
 td {
+    padding: 10px;
+}
+
+.control-panel {
+    background-color: white;
+    padding: 20px;
+}
+
+.control-panel button {
+    margin: 10px;
+    background-color: royalblue;
+    color: WHITE;
+    cursor: pointer;
+}
+
+.control-panel input,
+button {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.title {
+    color: black;
     padding: 10px;
 }
 

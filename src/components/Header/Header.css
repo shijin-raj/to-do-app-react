@@ -2,14 +2,12 @@
     background: white 0% 0% no-repeat padding-box;
     color: black;
     font-family: 'Poppins', sans-serif;
-    padding-top: 10px;
-    padding-bottom: 10px;
     width: 100%;
     display: inline-flex;
     overflow: hidden;
-    font-weight: 800;
     letter-spacing: 2px;
     align-items: center;
+    border-bottom: 1px solid #d8d8d8;
     justify-content: center;
 }
 

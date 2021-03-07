@@ -1,48 +1,56 @@
-import React,{useState,useEffect} from 'react'
-import "./DraggableList.css"
+import React,{useState,useEffect} from 'react';
+import "./DraggableList.css";
+import axios from 'axios';
+import LoadingScreen from '../LoadingScreen/LoadingScreen';
 export default function DraggableList() {
 const [draggedItem, setDraggedItem]=useState(null);
+const [listLoaded,setListLoaded]=useState(false);
+const [task,setTask]=useState('');
+const [state,setState]=useState([]);
+const [status,setStatus]=useState('Drag and Drop to Arrange List');
+const url='https://shijinraj0-api-node.herokuapp.com/';
+//const url='http://localhost:3001/';
 
-const [state,setState]=useState([{
-    id:1,
-    task:'Workout',
-    order:1
-},{
-    id:2,
-    task:'Travel',
-    order:2
-},{
-    id:3,
-    task:'Eat',
-    order:3
-},{
-    id:4,
-    task:'Code',
-    order:4
-},{
-    id:5,
-    task:'Sleep',
-    order:5
-}]);
+const getList=()=>{
+    setTimeout(()=>{
+    axios.get(url+'getList').then((response)=>{
+        console.log(response.data);
 
+        setState(response.data)
+        setListLoaded(true);
+    }).catch((err)=>{
+        console.error(err);
+    })
+},300);
+setTask('');
+}
+const updateList=()=>{
+    axios.post(url+'updateList',{todo:state}).then((response)=>{
+        console.log(response.data);
+        setState(response.data);
+    }).catch((err)=>{
+        console.error(err);
+    })
+}
 
 const handleDrag=(event,task)=>{
     setDraggedItem(task)
+    setStatus('Dragging '+task.task);
 }
 
 const handleDragOver=(event,task)=>{
     event.preventDefault();
 }
 
-
 const handleDrop=(event,droppedArea)=>{
     event.preventDefault();
+    setStatus('Dropped over '+droppedArea.task);
    sortState(droppedArea);
 }
 
 const sortState=(droppedArea)=>{
-    if(draggedItem!==null&&droppedArea!==null){
-        var taskList=state;
+    var taskList=state;
+    if(draggedItem!==null&&droppedArea!==null&&taskList!==[]){
         var oldPosition=draggedItem.order;
         var newPosition=droppedArea.order;
         taskList.forEach((task)=>{
@@ -90,14 +98,16 @@ const sortState=(droppedArea)=>{
     });
 }
 setDraggedItem(null);
-    taskList.sort((a,b)=>(a.order > b.order) ? 1 : ((b.order > a.order) ? -1 : 0));
+taskList.sort((a,b)=>(a.order > b.order) ? 1 : ((b.order > a.order) ? -1 : 0));
+updateList();
 }
 
 useEffect(()=>{
-    var taskList=state;
-    taskList.sort((a,b)=>(a.order > b.order) ? 1 : ((b.order > a.order) ? -1 : 0));
-    setState(taskList);
-},[state]);
+   // var taskList=state;
+    // taskList.sort((a,b)=>(a.order > b.order) ? 1 : ((b.order > a.order) ? -1 : 0));
+    // setState(taskList);
+    getList();
+},[]);
 
 
 const handleTouchEnd=(event,task)=>{
@@ -121,6 +131,31 @@ const handleTouchStart=(event,task)=>{
     setDraggedItem(task);
 }
 
+const  handleClick =()=>{
+    if(task==='')
+    {
+        setStatus('Task cannot be blank');
+        alert('Task cannot be blank')
+    }
+    else{
+    setListLoaded(false);
+    axios.post(url+'addToList',{todo:task})
+    .then((response)=>{
+        console.log(response);
+    })
+    .catch((error)=>{
+        setStatus('Server not reachable');
+        console.log(error)
+    });
+    getList();
+}
+}
+
+const  handleChange =(event)=>{
+     setTask(event.target.value);
+ }
+
+
 const listItems= state.map((task,index)=>{
         return (
             <tr
@@ -142,8 +177,10 @@ const listItems= state.map((task,index)=>{
     )
 });
 
+if(listLoaded){
     return (
         <div>
+                <div className='title' >{status}</div>
             <div className="main">
             <table>
                 <thead>
@@ -158,6 +195,14 @@ const listItems= state.map((task,index)=>{
             </tbody>
             </table>
     </div>
+    <div className='control-panel'>
+            <input onChange={handleChange}/>
+            <button onClick={handleClick}>ADD TO LIST</button>
+        </div>
         </div>
     )
+}
+else{
+    return <LoadingScreen />
+}
 }

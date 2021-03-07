@@ -5,7 +5,7 @@ const Header=(props)=> {
     return (
         <div className="page-header">
             <img className="logo" src={props.logo} alt="Logo"/>
-            {props.title}
+            <h1>{props.title}</h1>
         </div>
     )
 }
