@@ -2,12 +2,16 @@ import React,{useState,useEffect} from 'react';
 import "./DraggableList.css";
 import axios from 'axios';
 import LoadingScreen from '../LoadingScreen/LoadingScreen';
+
+
 export default function DraggableList() {
 const [draggedItem, setDraggedItem]=useState(null);
 const [listLoaded,setListLoaded]=useState(false);
 const [task,setTask]=useState('');
 const [state,setState]=useState([]);
 const [status,setStatus]=useState('Drag and Drop to Arrange List');
+
+
 const url='https://shijinraj0-api-node.herokuapp.com/';
 //const url='http://localhost:3001/';
 
@@ -24,6 +28,8 @@ const getList=()=>{
 },300);
 setTask('');
 }
+
+
 const updateList=()=>{
     axios.post(url+'updateList',{todo:state}).then((response)=>{
         console.log(response.data);
@@ -33,20 +39,24 @@ const updateList=()=>{
     })
 }
 
+
 const handleDrag=(event,task)=>{
     setDraggedItem(task)
     setStatus('Dragging '+task.task);
 }
 
+
 const handleDragOver=(event,task)=>{
     event.preventDefault();
 }
+
 
 const handleDrop=(event,droppedArea)=>{
     event.preventDefault();
     setStatus('Dropped over '+droppedArea.task);
    sortState(droppedArea);
 }
+
 
 const sortState=(droppedArea)=>{
     var taskList=state;
@@ -97,21 +107,19 @@ const sortState=(droppedArea)=>{
         }
     });
 }
+
 setDraggedItem(null);
 taskList.sort((a,b)=>(a.order > b.order) ? 1 : ((b.order > a.order) ? -1 : 0));
 updateList();
 }
 
 useEffect(()=>{
-   // var taskList=state;
-    // taskList.sort((a,b)=>(a.order > b.order) ? 1 : ((b.order > a.order) ? -1 : 0));
-    // setState(taskList);
     getList();
 },[]);
 
 
 const handleTouchEnd=(event,task)=>{
-    console.log(task.task+ ' end');
+  
     event.preventDefault();
     var changedTouch = event.changedTouches[0];
     var elem = document.elementFromPoint(changedTouch.clientX, changedTouch.clientY);
@@ -120,15 +128,15 @@ const handleTouchEnd=(event,task)=>{
         var dropTargetOrder=parseInt(elem.id.substring(5))+1;
         var dropTarget=state.find(element=>element.order===dropTargetOrder);
         if(dropTarget!==undefined){
-            console.log(dropTarget);
+            setStatus('Dropped over '+dropTarget.task);
             sortState(dropTarget);
         }
     }
 }
 
 const handleTouchStart=(event,task)=>{
-    console.log(task.task);
     setDraggedItem(task);
+    setStatus('Dragging '+task.task);
 }
 
 const  handleClick =()=>{
