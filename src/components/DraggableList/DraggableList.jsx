@@ -3,7 +3,6 @@ import "./DraggableList.css";
 import axios from 'axios';
 import LoadingScreen from '../LoadingScreen/LoadingScreen';
 
-
 export default function DraggableList() {
 const [draggedItem, setDraggedItem]=useState(null);
 const [listLoaded,setListLoaded]=useState(false);
@@ -12,7 +11,8 @@ const [state,setState]=useState([]);
 const [status,setStatus]=useState('Drag and Drop to Arrange List');
 
 
-const url='https://shijinraj0-api-node.herokuapp.com/';
+const url=process.env.REACT_APP_API_URL;
+
 //const url='http://localhost:3001/';
 
 const getList=()=>{
